@@ -183,9 +183,16 @@ uci delete ttyd.@ttyd[0].interface
 uci set dropbear.@dropbear[0].Interface=''
 uci commit
 
+# 禁用DHCP服务（旁路由配置）
+# 忽略LAN接口的DHCP配置
+uci set dhcp.lan.ignore='1'
+# 禁用dhcp服务器
+uci set dhcp.@dnsmasq[0].enable='0'
+uci commit dhcp
+
 # 设置编译作者信息
 FILE_PATH="/etc/openwrt_release"
-NEW_DESCRIPTION="Packaged by wukongdaily"
+NEW_DESCRIPTION="Packaged by yangjianhao"
 sed -i "s/DISTRIB_DESCRIPTION='[^']*'/DISTRIB_DESCRIPTION='$NEW_DESCRIPTION'/" "$FILE_PATH"
 
 # 若luci-app-advancedplus (进阶设置)已安装 则去除zsh的调用 防止命令行报 /usb/bin/zsh: not found的提示
